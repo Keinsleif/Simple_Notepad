@@ -1,0 +1,35 @@
+{
+    "Name": {
+        "message": "Simple Notepad"
+    },
+    "Description": {
+        "message": "Very simple notepad. Synchronize between the same accounts."
+    },
+    "save": {
+        "message": "Save"
+    },
+    "saved": {
+        "message": "Saved"
+    },
+    "clear": {
+        "message": "Clear"
+    },
+    "add": {
+        "message": "Add"
+    },
+    "delete": {
+        "message": "Delete"
+    },
+    "confirm_add_memo": {
+        "message": "Enter the name of the note"
+    },
+    "confirm_del_memo": {
+        "message": "Are you sure you want to erase?"
+    },
+    "option_title": {
+        "message": "Simple Notepad Options"
+    },
+    "option_size": {
+        "message": "Height x Width: "
+    }
+}

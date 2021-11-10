@@ -1,0 +1,41 @@
+{
+    "Name": {
+        "message": "シンプルメモ帳"
+    },
+    "Description": {
+        "message": "とてもシンプルなメモ帳 同じアカウント間で同期されます"
+    },
+    "save": {
+        "message": "保存"
+    },
+    "saved": {
+        "message": "保存しました"
+    },
+    "saving": {
+        "message": "保存しています..."
+    },
+    "clear": {
+        "message": "消去"
+    },
+    "add": {
+        "message": "追加"
+    },
+    "delete": {
+        "message": "消去"
+    },
+    "confirm_add_memo": {
+        "message": "メモの名前を入力"
+    },
+    "confirm_del_memo": {
+        "message": "メモを消去してもよろしいですか？"
+    },
+    "option_title": {
+        "message": "シンプルメモ帳の設定"
+    },
+    "option_size": {
+        "message": "縦 x 横: "
+    },
+    "option_time": {
+        "message": "保存までの待機時間: "
+    }
+}
