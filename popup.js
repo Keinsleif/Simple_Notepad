@@ -54,15 +54,9 @@ function delete_memo(){
     var name = $('#mlist').val();
     var yn = confirm(chrome.i18n.getMessage("confirm_del_memo"));
     if (yn){
-//        chrome.storage.local.get({"backup":[]},function(items){
-//            if ($("#memo").val()){
-//                var backup=items.backup;
-//                backup.append($("#memo").val());
-//                chrome.storage.local.set({"backup":backup});
-//            }
             $('#mlist').val(Object.keys(memos)[0]);
             $('#mlist').trigger("change");
-            $('#mlist > option[value='+name+']').remove();
+            $('#mlist > option[value="'+name+'"]').remove();
             delete memos[name];
 //        });
     }
