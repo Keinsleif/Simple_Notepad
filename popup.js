@@ -9,19 +9,26 @@ $(function(){
     $('#clear').on('click',clear_memo);
     $('#add').on('click',add_memo);
     $('#delete').on('click',delete_memo);
-    chrome.storage.sync.get({"simple_memo": {},height: 5,width: 60,time: 3000},function(items) {
+    chrome.storage.sync.get({"simple_memo": {},height: 5,width: 60,time: 3000,"selected": ""},function(items) {
         $('#memo').attr('rows',items.height);
         $('#memo').attr('cols',items.width);
         wait_time=items.time;
         memos=items.simple_memo;
+        var selected=items.selected;
         if (Object.keys(memos).length==0){
             memos={"Main": ""};
+            selected="Main";
         }
         for (var name in memos){
-            $('#mlist').append('<option value="'+name+'">'+name+'</option>');
+            if (name==selected){
+                $('#mlist').append('<option value="'+name+'" selected>'+name+'</option>');
+            }
+            else {
+                $('#mlist').append('<option value="'+name+'">'+name+'</option>');
+            }
         }
-        $('#mlist').val(Object.keys(memos)[0]);
-        $('#memo').val(memos[Object.keys(memos)[0]]);
+        $('#mlist').val(selected);
+        $('#memo').val(memos[selected]);
         $('#mlist').change(change_memo());
     });
     $(window).on("unload",save_unload);
@@ -29,7 +36,8 @@ $(function(){
 
 function save_unload(){
     memos[$('#mlist').val()]=$('#memo').val();
-    background.chrome.storage.sync.set({"simple_memo":memos});
+    var selected=$('#mlist').val();
+    background.chrome.storage.sync.set({"simple_memo":memos,"selected":selected});
 }
 
 function change_memo(){
@@ -45,9 +53,11 @@ function change_memo(){
 
 function add_memo() {
     var name = prompt(chrome.i18n.getMessage("confirm_add_memo"));
-    $('#mlist').append('<option value="'+name+'">'+name+'</option>');
-    $('#mlist').val(name);
-    $('#mlist').trigger("change");
+    if (name){
+        $('#mlist').append('<option value="'+name+'">'+name+'</option>');
+        $('#mlist').val(name);
+        $('#mlist').trigger("change");
+    }
 }
 
 function delete_memo(){
