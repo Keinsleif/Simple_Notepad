@@ -73,6 +73,7 @@ function change_memo() {
         var result = try_save(tmemos,v);
         if (result) {
             $('#memo').val(tmemos[mlist[v]][v]);
+            $("#slist").val(mlist[v]);
             memos = tmemos;
             old = v;
         } else {
