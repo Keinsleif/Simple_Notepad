@@ -4,7 +4,8 @@ chrome.runtime.onInstalled.addListener(function(){
             chrome.storage.sync.set({"memos":{"Main":items.simple_memo}});
         }
         else if (items.simple_memo instanceof Object && !(items.simple_memo instanceof Array)){
-            chrome.storage.sync.set({"memos":items.simple_memo})
+            memos={"sync":items.simple_memo,"local":{}};
+            chrome.storage.sync.set({"memos":memos})
         }
     });
 });
