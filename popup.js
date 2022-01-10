@@ -42,6 +42,8 @@ $(function () {
             memos["local"] = { "Main": "" };
             mlist["Main"] = "local";
             selected = "Main";
+        }else if (!selected){
+            selected = Object.keys(mlist)[0]
         }
         for (var stype of ["sync", "local"]) {
             for (var name in memos[stype]) {
