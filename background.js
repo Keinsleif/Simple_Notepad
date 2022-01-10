@@ -4,7 +4,12 @@ chrome.runtime.onInstalled.addListener(function(){
             chrome.storage.sync.set({"memos":{"Main":items.simple_memo}});
         }
         else if (items.simple_memo instanceof Object && !(items.simple_memo instanceof Array)){
-            chrome.storage.sync.set({"memos":items.simple_memo})
+            chrome.storage.sync.set({"memos":items.simple_memo});
+            chrome.storage.sync.remove("simple_memo");
+            chrome.storage.sync.get({height: 5, width: 60,tab_size: 4, selected: ""},function(items){
+                chrome.storage.local.set(items);
+                chrome.storage.sync.remove(Object.keys(items));
+            });
         }
     });
 });
