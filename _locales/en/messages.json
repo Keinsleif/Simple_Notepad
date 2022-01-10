@@ -20,16 +20,31 @@
     "delete": {
         "message": "Delete"
     },
+    "sync": {
+        "message": "Sync"
+    },
+    "local": {
+        "message": "Local"
+    },
     "confirm_add_memo": {
         "message": "Enter the name of the note"
     },
     "confirm_del_memo": {
         "message": "Are you sure you want to erase?"
     },
+    "same_memo_name": {
+        "message": "The name is duplicated."
+    },
+    "size_over": {
+        "message": "The size of the memo is too large."
+    },
     "option_title": {
         "message": "Simple Notepad Options"
     },
     "option_size": {
         "message": "Height x Width: "
+    },
+    "option_tab": {
+        "message": "TAB size: "
     }
 }

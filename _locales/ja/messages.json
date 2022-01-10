@@ -23,11 +23,23 @@
     "delete": {
         "message": "消去"
     },
+    "sync": {
+        "message": "同期"
+    },
+    "local": {
+        "message": "ローカル"
+    },
     "confirm_add_memo": {
         "message": "メモの名前を入力"
     },
     "confirm_del_memo": {
         "message": "メモを消去してもよろしいですか？"
+    },
+    "same_memo_name": {
+        "message": "名前が重複しています。"
+    },
+    "size_over": {
+        "message": "メモのサイズが大きすぎます。"
     },
     "option_title": {
         "message": "シンプルメモ帳の設定"
@@ -35,7 +47,7 @@
     "option_size": {
         "message": "縦 x 横: "
     },
-    "option_time": {
-        "message": "保存までの待機時間: "
+    "option_tab": {
+        "message": "タブの幅: "
     }
 }

@@ -1,7 +1,7 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "__MSG_Name__",
-    "version": "1.5.3",
+    "version": "1.6.0",
     "description": "__MSG_Description__",
     "default_locale": "en",
     "icons": {
@@ -9,7 +9,7 @@
         "48": "48.png",
         "128": "128.png"
     },
-    "browser_action": {
+    "action": {
         "default_popup": "popup.html"
     },
     "options_ui": {
@@ -17,7 +17,7 @@
         "open_in_tab": false
     },
     "background": {
-        "scripts": ["background.js"]
+        "service_worker": "background.js"
     },
-    "permissions": ["storage"]
+    "permissions": ["storage","unlimitedStorage"]
 }

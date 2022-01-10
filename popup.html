@@ -5,12 +5,19 @@
         <title></title>
     </head>
     <body>
-        <button id="clear"></button>
-        <select id="mlist" style="width: 150px;font-size: 15px;"></select>
-        <button id="add"></button><button id="delete"></button>
+        <button class="ui" id="clear"></button>
+        <select class="ui" id="mlist" style="width: 150px;font-size: 15px;">
+            <optgroup id="mlist_sync" label="Sync"></optgroup>
+            <optgroup id="mlist_local" label="Local"></optgroup>
+        </select>
+        <button class="ui" id="add"></button><button class="ui" id="delete"></button>
+        <select class="ui" id="slist" style="width: 60px;font-size:15px;">
+            <option id="sync" value="sync"></option>
+            <option id="local" value="local"></option>
+        </select>
         <div id="status" style="float: right;display: inline;"></div>
         <br>
-        <textarea id="memo" rows="5" cols="60" autofocus></textarea>
+        <textarea class="ui" id="memo" rows="5" cols="60" autofocus></textarea>
         <script src="jquery-3.6.0.min.js"></script>
         <script src="popup.js"></script>
     </body>
