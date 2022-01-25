@@ -1,6 +1,12 @@
 'use strict';
 var memos = { "sync": {}, "local": {} }, mlist = {};
 var port = chrome.runtime.connect({name: "save"});
+port.onDisconnect.addListener(reconnect);
+function reconnect(){
+    port=chrome.runtime.connect({name:"save"});
+    port.onDisconnect.addListener(reconnect)
+}
+
 $(function () {
     $('#clear').text(chrome.i18n.getMessage('clear'));
     $('#add').text(chrome.i18n.getMessage('add'));

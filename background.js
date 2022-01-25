@@ -14,14 +14,14 @@ chrome.runtime.onInstalled.addListener(function(){
     });
 });
 
-
-chrome.runtime.onConnect.addListener(function(port) {
+var port;
+chrome.runtime.onConnect.addListener(function(p) {
+    port=p;
     port.onMessage.addListener(listen_mes());
 });
 function listen_mes(){
     var timer;
     return function(items){
-        console.log(items);
         clearTimeout(timer);
         timer=setTimeout(function(){
             chrome.storage.local.set({"memos":items[0]["local"],"selected":items[1]});
