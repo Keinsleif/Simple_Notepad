@@ -38,6 +38,9 @@
     "same_memo_name": {
         "message": "名前が重複しています。"
     },
+    "reserved_word": {
+        "message": "その名前は使用できません。"
+    },
     "size_over": {
         "message": "メモのサイズが大きすぎます。"
     },

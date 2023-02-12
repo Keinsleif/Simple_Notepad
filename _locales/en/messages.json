@@ -35,6 +35,9 @@
     "same_memo_name": {
         "message": "The name is duplicated."
     },
+    "reserved_word": {
+        "message": "This name cannot be used."
+    },
     "size_over": {
         "message": "The size of the memo is too large."
     },

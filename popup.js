@@ -1,9 +1,10 @@
 'use strict';
+const RESERVED = ["slist", "memos", "selected", "simple_memo"]
 var memos = { "sync": {}, "local": {} }, mlist = {};
-var port = chrome.runtime.connect({name: "save"});
+var port = chrome.runtime.connect({ name: "save" });
 port.onDisconnect.addListener(reconnect);
-function reconnect(){
-    port=chrome.runtime.connect({name:"save"});
+function reconnect() {
+    port = chrome.runtime.connect({ name: "save" });
     port.onDisconnect.addListener(reconnect)
 }
 
@@ -14,7 +15,7 @@ $(function () {
     $('#sync').text(chrome.i18n.getMessage('sync'));
     $('#local').text(chrome.i18n.getMessage('local'));
     $('title').text(chrome.i18n.getMessage('Name'));
-    $("#memo").on('keydown', function(e){
+    $("#memo").on('keydown', function (e) {
         if (e.keyCode === 9) {
             e.preventDefault();
             var elem = e.target;
@@ -28,13 +29,15 @@ $(function () {
     $('#add').on('click', add_memo);
     $('#delete').on('click', delete_memo);
     (async () => {
-        var sync = await new Promise(resolve => { chrome.storage.sync.get({ memos: {} }, resolve) });
-        var local = await new Promise(resolve => { chrome.storage.local.get({ memos: {}, height: 5, width: 60,tab_size: 4, selected: "" }, resolve) });
+        var items = await new Promise(resolve => { chrome.storage.sync.get({ "slist": [] }, resolve) });
+        if (items.slist.length) { var sync = await new Promise(resolve => { chrome.storage.sync.get(items.slist, resolve) }) } else { var sync = {} };
+        var local = await new Promise(resolve => { chrome.storage.local.get({ "memos": {}, "height": 5, "width": 60, "tab_size": 4, "selected": "" }, resolve) });
         $('#memo').attr('rows', local.height);
         $('#memo').attr('cols', local.width);
-        $('#memo').css("tab-size",local.tab_size);
-        memos["sync"] = sync.memos;
-        for (var name in sync.memos) {
+        $('#memo').css("tab-size", local.tab_size);
+        console.log(sync)
+        memos["sync"] = sync;
+        for (var name in sync) {
             mlist[name] = "sync";
         }
         for (var memo in local.memos) {
@@ -44,11 +47,11 @@ $(function () {
             }
         }
         var selected = local.selected;
-        if (Object.keys(memos["sync"]).length == 0 && Object.keys(memos["local"]).length == 0) {
+        if (!Object.keys(memos["sync"]).length && !Object.keys(memos["local"]).length) {
             memos["local"] = { "Main": "" };
             mlist["Main"] = "local";
             selected = "Main";
-        }else if (!selected){
+        } else if (!selected || !Object.keys(mlist).includes(selected)) {
             selected = Object.keys(mlist)[0]
         }
         for (var stype of ["sync", "local"]) {
@@ -66,9 +69,36 @@ $(function () {
         $('#slist').val(mlist[selected]);
         $('#mlist').change(change_memo());
         $('#slist').change(change_sync);
-        $('#memo').on("input",send_content);
+        $('#memo').on("input", send_content);
     })();
 });
+
+
+function try_save(tmemos, selected) {
+    if ((new Blob([JSON.stringify(tmemos["sync"])])).size > chrome.storage.sync.QUOTA_BYTES - 2400) {
+        alert(chrome.i18n.getMessage("size_over") + " ALL_STORAGE");
+        return false
+    }
+    for (var memo in tmemos["sync"]) {
+        if ((new Blob([JSON.stringify(tmemos["sync"][memo])])).size > chrome.storage.sync.QUOTA_BYTES_PER_ITEM - 92) {
+            alert(chrome.i18n.getMessage("size_over") + " PER_ITEM");
+            return false
+        }
+    }
+    port.postMessage([tmemos, selected]);
+    return true;
+}
+
+function send_content() {
+    var name = $("#mlist").val();
+    const old = memos[mlist[name]][name];
+    memos[mlist[name]][name] = $("#memo").val();
+    var yn = try_save(memos, name);
+    if (!yn) {
+        $("#memo").val(old);
+        memos[mlist[name]][name] = old;
+    }
+}
 
 function change_memo() {
     var old = $('#mlist').val(), v = $('#mlist').val();
@@ -76,7 +106,7 @@ function change_memo() {
         v = $('#mlist').val();
         var tmemos = memos;
         tmemos[mlist[old]][old] = $('#memo').val();
-        var result = try_save(tmemos,v);
+        var result = try_save(tmemos, v);
         if (result) {
             $('#memo').val(tmemos[mlist[v]][v]);
             $("#slist").val(mlist[v]);
@@ -89,10 +119,11 @@ function change_memo() {
     }
 }
 
-function send_content() {
+function clear_memo() {
     var name = $("#mlist").val();
-    memos[mlist[name]][name]=$("#memo").val();
-    try_save(memos,name);
+    $("#memo").val("");
+    memos[mlist[name]][name] = "";
+    try_save(memos, name);
 }
 
 function add_memo() {
@@ -100,6 +131,10 @@ function add_memo() {
     if (name) {
         if (name in mlist) {
             alert(chrome.i18n.getMessage("same_memo_name"));
+            return
+        }
+        else if (name in RESERVED) {
+            alert(chrome.i18n.getMessage("reserved_word"));
             return
         }
         memos["local"][name] = "";
@@ -122,13 +157,6 @@ function delete_memo() {
     }
 }
 
-function clear_memo() {
-    var name = $("#mlist").val();
-    $("#memo").val("");
-    memos[mlist[name]][name] = "";
-    try_save(memos,name);
-}
-
 function change_sync() {
     var name = $("#mlist").val();
     if (mlist[name] == "sync") {
@@ -140,29 +168,14 @@ function change_sync() {
     tmemos[dst][name] = tmemos[src][name];
     tmlist[name] = dst;
     delete tmemos[src][name];
-    var result = try_save(tmemos,name);
+    var result = try_save(tmemos, name);
     if (result) {
-        $(".ui").prop("disabled",true);
+        $(".ui").prop("disabled", true);
         memos = tmemos;
         mlist = tmlist;
-        setTimeout(() => location.reload(),2000);
+        setTimeout(() => location.reload(), 2000);
     }
     else {
         $("#slist").val(src);
     }
-}
-
-function try_save(tmemos,selected) {
-    if ((new Blob([JSON.stringify(tmemos["sync"])])).size > chrome.storage.sync.QUOTA_BYTES-2400) {
-        alert(chrome.i18n.getMessage("size_over"));
-        return false
-    }
-    for (var memo in tmemos["sync"]) {
-        if ((new Blob([JSON.stringify(tmemos["sync"][memo])])).size > chrome.storage.sync.QUOTA_BYTES_PER_ITEM-92) {
-            alert(chrome.i18n.getMessage("size_over"));
-            return false
-        }
-    }
-    port.postMessage([tmemos,selected]);
-    return true;
 }
