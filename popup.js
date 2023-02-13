@@ -9,6 +9,7 @@ function reconnect() {
 }
 
 $(function () {
+    $('#ont').attr("href","chrome-extension://"+chrome.runtime.id+"/popup.html?mode=tab")
     $('#clear').text(chrome.i18n.getMessage('clear'));
     $('#add').text(chrome.i18n.getMessage('add'));
     $('#delete').text(chrome.i18n.getMessage('delete'));
@@ -32,10 +33,17 @@ $(function () {
         var items = await new Promise(resolve => { chrome.storage.sync.get({ "slist": [] }, resolve) });
         if (items.slist.length) { var sync = await new Promise(resolve => { chrome.storage.sync.get(items.slist, resolve) }) } else { var sync = {} };
         var local = await new Promise(resolve => { chrome.storage.local.get({ "memos": {}, "height": 5, "width": 60, "tab_size": 4, "selected": "" }, resolve) });
-        $('#memo').attr('rows', local.height);
-        $('#memo').attr('cols', local.width);
+        const searchParams = new URLSearchParams(window.location.search)
+        if (searchParams.has("mode") && searchParams.get("mode")=="tab"){
+            $('#memo').width("100%");
+            $('#memo').height(window.innerHeight-$("#tooltips").outerHeight(true)-25);
+            $(window).resize(()=>{$('#memo').height(window.innerHeight-$("#tooltips").outerHeight(true)-25);console.log("test")})
+        }
+        else {
+            $('#memo').attr('rows', local.height);
+            $('#memo').attr('cols', local.width);
+        }
         $('#memo').css("tab-size", local.tab_size);
-        console.log(sync)
         memos["sync"] = sync;
         for (var name in sync) {
             mlist[name] = "sync";
