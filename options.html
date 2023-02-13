@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><title></title></head>
-<body>
+    <head><title></title></head>
+    <body>
+        <label for="size"><font size="3" id="label-size"></font></label>
+        <div id="size">
+            <input type="number" id="height" style="width: 50px;"/>
+                x
+            <input type="number" id="width" style="width: 50px;"/>
+        </div>
 
-<label for="size"><font size="3" id="label-size"></font></label>
-<div id="size">
-    <input type="number" id="height" style="width: 50px;"/>
-    x
-    <input type="number" id="width" style="width: 50px;"/>
-</div>
+        <br>
+        <div>
+            <label for="tab_size"><font size="3" id="label-tab"></font></label>
+            <input id="tab_size" type="number" min="1" style="width: 50px;" />
+        </div>
+        <br>
 
-<br>
-<div>
-<label for="tab_size"><font size="3" id="label-tab"></font></label>
-<input id="tab_size" type="number" min="1" style="width: 50px;" />
-</div>
-<br>
-
-<button id="save"></button>
-<div id="status" style="display: inline;"></div>
-<script src="jquery-3.6.0.min.js"></script>
-<script src="options.js"></script>
-</body>
+        <button id="save"></button>
+        <div id="status" style="display: inline;"></div>
+        <script src="jquery-3.6.0.min.js"></script>
+        <script src="options.js"></script>
+    </body>
 </html>

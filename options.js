@@ -6,21 +6,21 @@ function save_options() {
         height: height,
         width: width,
         tab_size: tab_size
-    }, function() {
-    $('#status').text(chrome.i18n.getMessage("saved"));
-    setTimeout(function(){$('#status').text("")},3000)
+    }, function () {
+        $('#status').text(chrome.i18n.getMessage("saved"));
+        setTimeout(function () { $('#status').text("") }, 3000)
     });
 }
 
 function restore_options() {
-    chrome.storage.local.get({height: 5,width: 60,tab_size: 4}, function(items) {
-    $('#height').val(items.height);
-    $('#width').val(items.width);
-    $('#tab_size').val(items.tab_size);
+    chrome.storage.local.get({ height: 5, width: 60, tab_size: 4 }, function (items) {
+        $('#height').val(items.height);
+        $('#width').val(items.width);
+        $('#tab_size').val(items.tab_size);
     });
 }
 
-$(function(){
+$(function () {
     restore_options();
     $('#save').on('click', save_options);
     $('title').text(chrome.i18n.getMessage("option_title"));

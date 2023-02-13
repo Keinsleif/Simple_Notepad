@@ -9,7 +9,7 @@ function reconnect() {
 }
 
 $(function () {
-    $('#ont').attr("href","chrome-extension://"+chrome.runtime.id+"/popup.html?mode=tab")
+    $('#ont').attr("href", "chrome-extension://" + chrome.runtime.id + "/popup.html?mode=tab")
     $('#clear').text(chrome.i18n.getMessage('clear'));
     $('#add').text(chrome.i18n.getMessage('add'));
     $('#delete').text(chrome.i18n.getMessage('delete'));
@@ -34,10 +34,10 @@ $(function () {
         if (items.slist.length) { var sync = await new Promise(resolve => { chrome.storage.sync.get(items.slist, resolve) }) } else { var sync = {} };
         var local = await new Promise(resolve => { chrome.storage.local.get({ "memos": {}, "height": 5, "width": 60, "tab_size": 4, "selected": "" }, resolve) });
         const searchParams = new URLSearchParams(window.location.search)
-        if (searchParams.has("mode") && searchParams.get("mode")=="tab"){
+        if (searchParams.has("mode") && searchParams.get("mode") == "tab") {
             $('#memo').width("100%");
-            $('#memo').height(window.innerHeight-$("#tooltips").outerHeight(true)-25);
-            $(window).resize(()=>{$('#memo').height(window.innerHeight-$("#tooltips").outerHeight(true)-25);console.log("test")})
+            $('#memo').height(window.innerHeight - $("#tooltips").outerHeight(true) - 25);
+            $(window).resize(() => { $('#memo').height(window.innerHeight - $("#tooltips").outerHeight(true) - 25) })
         }
         else {
             $('#memo').attr('rows', local.height);
