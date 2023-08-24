@@ -15,8 +15,8 @@
 
 ***
 
-This extension allows you to remove Youtube ads by pressing ESC or Shift + E when playing Youtube videos.  
-You can remove ads with one click without moving the cursor.  
-Only Shift + E is valid at full screen.  
+Add a very simple notepad that allows you to switch between multiple notes in your browser.  
+You can select the save storage of each memo from "Sync" or "Local", and the contents are always saved.  
+You can change the size of the memo field and the width of the TAB from "Settings".  
 
 ***
