@@ -21,7 +21,7 @@
         "message": "追加"
     },
     "delete": {
-        "message": "消去"
+        "message": "削除"
     },
     "sync": {
         "message": "同期"
@@ -33,7 +33,7 @@
         "message": "メモの名前を入力"
     },
     "confirm_del_memo": {
-        "message": "メモを消去してもよろしいですか？"
+        "message": "メモを削除してもよろしいですか？"
     },
     "same_memo_name": {
         "message": "名前が重複しています。"
