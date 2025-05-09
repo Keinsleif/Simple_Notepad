@@ -9,7 +9,16 @@ function reconnect() {
 }
 
 $(function () {
+    const searchParams = new URLSearchParams(window.location.search)
+
     $('#ont').attr("href", "chrome-extension://" + chrome.runtime.id + "/popup.html?mode=tab")
+    $('#onp').on('click', () => {
+        var url = "chrome-extension://" + chrome.runtime.id + "/popup.html?mode=popup";
+        chrome.windows.create({ url: url, type: "popup", focused: true, width: document.body.offsetWidth, height: document.body.offsetHeight });
+        if (!searchParams.has("mode") || (searchParams.get("mode") != "tab" && searchParams.get("mode") != "popup")) {
+            window.close();
+        }
+    });
     $('#clear').text(chrome.i18n.getMessage('clear'));
     $('#add').text(chrome.i18n.getMessage('add'));
     $('#delete').text(chrome.i18n.getMessage('delete'));
@@ -33,7 +42,6 @@ $(function () {
         var items = await new Promise(resolve => { chrome.storage.sync.get({ "slist": [] }, resolve) });
         if (items.slist.length) { var sync = await new Promise(resolve => { chrome.storage.sync.get(items.slist, resolve) }) } else { var sync = {} };
         var local = await new Promise(resolve => { chrome.storage.local.get({ "memos": {}, "height": 5, "width": 64, "tab_size": 4, "selected": "" }, resolve) });
-        const searchParams = new URLSearchParams(window.location.search)
         if (searchParams.has("mode") && searchParams.get("mode") == "tab") {
             $('#memo').width("100%");
             $('#memo').height(window.innerHeight - $("#tooltips").outerHeight(true) - 25);
@@ -42,6 +50,10 @@ $(function () {
         else {
             $('#memo').attr('rows', local.height);
             $('#memo').attr('cols', local.width);
+            if (searchParams.has("mode") && searchParams.get("mode") == "popup") {
+                $('body').width("fit-content");
+                window.resizeTo(document.body.offsetWidth + (window.outerWidth - window.innerWidth), document.body.offsetHeight + (window.outerHeight - window.innerHeight))
+            }
         }
         $('#memo').css("tab-size", local.tab_size);
         memos["sync"] = sync;
