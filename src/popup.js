@@ -32,7 +32,7 @@ $(function () {
     (async () => {
         var items = await new Promise(resolve => { chrome.storage.sync.get({ "slist": [] }, resolve) });
         if (items.slist.length) { var sync = await new Promise(resolve => { chrome.storage.sync.get(items.slist, resolve) }) } else { var sync = {} };
-        var local = await new Promise(resolve => { chrome.storage.local.get({ "memos": {}, "height": 5, "width": 60, "tab_size": 4, "selected": "" }, resolve) });
+        var local = await new Promise(resolve => { chrome.storage.local.get({ "memos": {}, "height": 5, "width": 64, "tab_size": 4, "selected": "" }, resolve) });
         const searchParams = new URLSearchParams(window.location.search)
         if (searchParams.has("mode") && searchParams.get("mode") == "tab") {
             $('#memo').width("100%");

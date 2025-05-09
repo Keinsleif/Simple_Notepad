@@ -13,7 +13,7 @@ function save_options() {
 }
 
 function restore_options() {
-    chrome.storage.local.get({ height: 5, width: 60, tab_size: 4 }, function (items) {
+    chrome.storage.local.get({ height: 5, width: 64, tab_size: 4 }, function (items) {
         $('#height').val(items.height);
         $('#width').val(items.width);
         $('#tab_size').val(items.tab_size);
